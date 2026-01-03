@@ -1,0 +1,47 @@
+.cards-container {
+  margin-top: 90px; 
+  margin-left: 260px; 
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.card {
+  background: #ffffff;
+  padding: 22px;
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e4e7ec;
+  text-align: left;
+  transition: 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 74, 173, 0.16);
+}
+
+.card-title {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.card-value {
+  margin-top: 8px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #004AAD;
+}
+
+.card-value.pending {
+  color: #C0392B;
+}
+
+.card-value.inprogress {
+  color: #E67E22;
+}
+
+.card-value.resolved {
+  color: #0A8F5A;
+}

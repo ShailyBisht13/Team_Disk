@@ -1,0 +1,6 @@
+requests==2.31.0
+opencv-python==4.8.0.76
+mpu6050-raspberrypi==1.1
+numpy==1.25.0
+ultralytics==8.0.196
+gpiozero==2.0

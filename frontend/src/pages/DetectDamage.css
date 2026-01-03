@@ -1,0 +1,55 @@
+.detect-container {
+  padding: 20px;
+  text-align: center;
+  font-family: Poppins, sans-serif;
+}
+
+.camera-view video {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #ccc;
+}
+
+.captured-image {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 0 15px #aaa;
+}
+
+.btn-group {
+  margin-top: 15px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+}
+
+.btn-primary {
+  background: #1f9d8a;
+}
+
+.btn-secondary {
+  background: #0b2745;
+}
+
+.gps-text {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #0b2745;
+}
+
+.result-box {
+  margin-top: 20px;
+  padding: 15px;
+  background: #eaf8f6;
+  border-radius: 12px;
+  text-align: left;
+}

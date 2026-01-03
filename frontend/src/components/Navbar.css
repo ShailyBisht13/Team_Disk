@@ -1,0 +1,100 @@
+/* ===== NAVBAR ===== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 28px;
+  background: #ffffff;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Brand */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.navbar-logo {
+  width: 48px;
+  margin-right: 10px;
+}
+
+.brand-text {
+  font-size: 20px;
+  font-weight: 600;
+}
+.brand-bold {
+  color: #003366;
+}
+.brand-highlight {
+  color: #008000;
+  padding-left: 4px;
+}
+
+/* Links */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.navbar-link {
+  text-decoration: none;
+  color: #444;
+  font-weight: 500;
+  padding: 6px 10px;
+  transition: 0.3s;
+}
+
+.navbar-link:hover {
+  color: #008000;
+}
+
+.active-link {
+  border-bottom: 2px solid #008000;
+  color: #008000;
+}
+
+/* Dropdown Login */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-btn {
+  background: none;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 28px;
+  right: 0;
+  background: white;
+  width: 150px;
+  border-radius: 6px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  padding: 8px 0;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 8px 15px;
+  color: #333;
+  text-decoration: none;
+}
+
+.dropdown-menu a:hover {
+  background: #f2f2f2;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}

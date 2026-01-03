@@ -1,0 +1,209 @@
+/* IOT Cards Custom Style */
+.iot-card {
+  background: rgba(0, 74, 173, 0.05); /* Slight blue tint */
+  border: 1px solid #004aad;
+}
+
+.about-page {
+  font-family: "Poppins", sans-serif;
+  background: #f7fafc;
+  color: #0b2745;
+  overflow-x: hidden;
+}
+
+/* ---------------- HERO SECTION ---------------- */
+.about-hero {
+  position: relative;
+  height: 55vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.about-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(7, 32, 53, 0.6);
+}
+
+.about-hero-content {
+  position: relative;
+  z-index: 2;
+  color: #ffffff;
+  animation: fadeIn 1.4s ease;
+}
+
+.about-hero-content h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.about-hero-content p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+/* ---------------- SECTIONS ---------------- */
+.about-section {
+  padding: 4rem 10%;
+}
+
+.about-section h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f9d8a;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* ---------------- INTRO SECTION ---------------- */
+.intro-section {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.about-text {
+  flex: 1;
+  min-width: 280px;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #324150;
+}
+
+.about-image {
+  flex: 1;
+  text-align: center;
+}
+
+.about-image img {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+}
+
+/* ---------------- MISSION LIST ---------------- */
+.mission-list {
+  max-width: 700px;
+  margin: auto;
+  text-align: left;
+  padding-left: 1.2rem;
+  margin-top: 1rem;
+}
+
+.mission-list li {
+  font-size: 1rem;
+  color: #2e3c49;
+  padding: 0.4rem 0;
+}
+
+/* ---------------- FEATURES SECTION ---------------- */
+.features-section {
+  background: #eefbf7;
+  padding: 4rem 8%;
+}
+
+.features-grid {
+  margin-top: 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.feature-card {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 6px 22px rgba(31, 157, 138, 0.12);
+  transition: 0.25s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 12px 30px rgba(31, 157, 138, 0.18);
+}
+
+.feature-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+  font-size: 1.2rem;
+  color: #004e4a;
+  margin-bottom: 0.5rem;
+}
+
+.feature-card p {
+  font-size: 0.95rem;
+  color: #3f4a50;
+}
+
+/* ---------------- IMPACT SECTION ---------------- */
+.impact-section {
+  background: #ffffff;
+  padding: 3rem 10%;
+  text-align: center;
+}
+
+.impact-section p {
+  max-width: 760px;
+  margin: auto;
+  font-size: 1.05rem;
+  color: #3b4752;
+  line-height: 1.7;
+}
+
+/* ---------------- FOOTER ---------------- */
+.about-footer {
+  background: #0b2745;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+}
+
+/* ---------------- ANIMATIONS ---------------- */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+@media (max-width: 768px) {
+  .about-hero-content h1 {
+    font-size: 2.2rem;
+  }
+
+  .about-section {
+    padding: 2.5rem 6%;
+  }
+
+  .intro-section {
+    flex-direction: column;
+  }
+
+  .about-image img {
+    max-width: 90%;
+  }
+}

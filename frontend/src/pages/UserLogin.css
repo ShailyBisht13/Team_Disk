@@ -1,0 +1,119 @@
+/* -----------------------------------------
+   SMART UTTARAKHAND — USER OTP LOGIN PAGE
+------------------------------------------*/
+
+:root {
+  --primary-blue: #004aad;
+  --primary-green: #0a8f5a;
+  --focus-blue: #0d6efd;
+  --muted: #6b7280;
+  --white: #ffffff;
+
+  font-family: "Poppins", sans-serif;
+}
+
+/* Full Page Wrapper */
+.userlogin-container {
+  min-height: 86vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(120deg, #e7f1ff, #e8fff5);
+  padding: 32px;
+}
+
+/* Card Box */
+.userlogin-card {
+  width: 380px;
+  background: var(--white);
+  padding: 26px 28px;
+  border-radius: 14px;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e5e7eb;
+  animation: fadeIn 0.4s ease;
+}
+
+/* Title */
+.userlogin-card h2 {
+  text-align: left;
+  margin-bottom: 18px;
+  font-size: 22px;
+  color: var(--primary-blue);
+  font-weight: 700;
+}
+
+/* Input */
+.userlogin-card input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1.5px solid #d1d5db;
+  font-size: 14px;
+  margin-bottom: 12px;
+  background: #fafafa;
+  transition: 0.2s;
+}
+
+.userlogin-card input:focus {
+  outline: none;
+  border-color: var(--focus-blue);
+  box-shadow: 0 0 8px rgba(13, 110, 253, 0.25);
+}
+
+/* Button */
+.userlogin-card button {
+  width: 100%;
+  background: linear-gradient(90deg, var(--primary-blue), var(--primary-green));
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.userlogin-card button:hover:not(:disabled) {
+  opacity: 0.95;
+  transform: translateY(-2px);
+}
+
+.userlogin-card button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Resend / Timer */
+.resend-btn {
+  background: none;
+  color: var(--primary-blue);
+  border: none;
+  margin-top: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.resend-btn:hover {
+  color: var(--primary-green);
+}
+
+/* Message */
+.userlogin-card p {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

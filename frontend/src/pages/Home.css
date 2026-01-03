@@ -1,0 +1,304 @@
+/* src/pages/Home.css */
+
+.home-page {
+  width: 100%;
+}
+
+/* --- Hero Section --- */
+.hero-section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 2rem;
+  color: #fff;
+  text-align: center;
+}
+.hero-background {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-image: url('https://images.unsplash.com/photo-1596432150438-3ef028e3422a?q=80&w=2070&auto=format&fit=crop'); /* A high-quality, relevant background image */
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.6);
+}
+.hero-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(to top, rgba(44, 62, 80, 0.7), rgba(44, 62, 80, 0.3)); /* Gradient overlay for better text readability */
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  animation: fadeInDown 1s ease-out;
+}
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+  line-height: 1.2;
+}
+.hero-subtitle {
+  font-size: 1.25rem;
+  margin: 1.5rem 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.9;
+}
+.cta-button {
+  font-size: 1.2rem;
+  padding: 1rem 2.5rem;
+  margin-top: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* --- General Content Section Styling --- */
+.content-section {
+  padding: 5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  color: var(--dark-gray);
+}
+
+/* --- How It Works Section --- */
+.steps-container {
+  display: flex;
+  justify-content: space-around;
+  gap: 2rem;
+  text-align: center;
+}
+.step-card {
+  flex: 1;
+  padding: 2rem;
+}
+.step-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* --- Feature Section --- */
+.feature-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+.feature-image-container img {
+  width: 100%;
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+}
+.feature-list .section-title {
+  text-align: left;
+}
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.feature-icon {
+  font-size: 2rem;
+  background-color: #eaf2fa;
+  color: var(--primary-color);
+  padding: 1rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.feature-item h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+/* --- Mission Section --- */
+.mission-section {
+  background-color: #f8f9fa;
+  text-align: center;
+}
+.mission-text {
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  color: #555;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 992px) {
+  .hero-title { font-size: 2.8rem; }
+  .feature-section { grid-template-columns: 1fr; }
+  .feature-image-container { order: -1; margin-bottom: 2rem; }
+  .feature-list .section-title { text-align: center; }
+}
+@media (max-width: 768px) {
+  .hero-title { font-size: 2.2rem; }
+  .hero-subtitle { font-size: 1.1rem; }
+  .steps-container { flex-direction: column; }
+}
+
+/* --- Animations --- */
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* src/pages/Home.css */
+
+/* --- Digital India Logo Styling --- */
+.digital-india-logo {
+  max-width: 250px; /* Adjust size as needed */
+  height: auto;
+  margin-bottom: 2rem; /* Space below the logo */
+  filter: drop-shadow(0 0 5px rgba(0,0,0,0.3)); /* Add a subtle glow for visibility on varying backgrounds */
+}
+
+/* Responsive adjustments for the logo */
+@media (max-width: 768px) {
+  .digital-india-logo {
+    max-width: 180px; /* Smaller on tablets */
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .digital-india-logo {
+    max-width: 140px; /* Even smaller on mobile */
+    margin-bottom: 1rem;
+  }
+}
+
+/* ... other existing styles ... */
+/* Ensure .hero-content has text-align: center */
+.hero-content {
+  text-align: center;
+  /* ... other styles ... */
+}
+
+/* Dashboard / Step Cards */
+.step-card {
+  background-color: #f0f8ff; /* Light blue */
+  border-radius: 12px;
+  padding: 20px;
+  margin: 10px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.step-card:hover {
+  transform: translateY(-5px);
+}
+
+.step-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+/* Section Titles */
+.section-title {
+  color: #1e3a8a; /* Dark blue */
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* Hero Text */
+.hero-title {
+  color: #0d47a1; /* Deep blue */
+}
+
+.hero-subtitle {
+  color: #374151; /* Grayish text */
+}
+
+/* Municipal Section */
+.municipal-section {
+  background-color: #fff3e0; /* Soft orange */
+  padding: 30px;
+  border-radius: 12px;
+}
+
+.municipal-link {
+  background-color: #ff9800; /* Orange button */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.municipal-link:hover {
+  background-color: #fb8c00;
+}
+
+/* Mission Section Text */
+.mission-text {
+  color: #374151; /* Grayish text */
+  font-size: 1.1rem;
+}
+
+/* Features Section */
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.feature-icon {
+  font-size: 2rem;
+  margin-right: 10px;
+  color: #1e40af; /* Dark blue */
+}
+
+.cm-quote-features-section {
+  font-style: italic;
+  color: #6b7280; /* Gray */
+}
+
+/* Municipal Portal Section */
+.municipal-section {
+  background-color: #fff3e0; /* Soft orange background */
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.municipal-section h2 {
+  color: #d84315; /* Dark orange / bold color for title */
+  font-weight: 700;
+}
+
+.municipal-section p {
+  color: #6d4c41; /* Brownish text for description */
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+.municipal-link {
+  background-color: #ff9800; /* Orange button */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.municipal-link:hover {
+  background-color: #fb8c00; /* Darker orange on hover */
+}

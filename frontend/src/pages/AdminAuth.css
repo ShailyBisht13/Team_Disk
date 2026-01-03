@@ -1,0 +1,106 @@
+:root {
+  --primary: #0057ff;
+  --secondary: #00b36b;
+  --text-dark: #222;
+  --bg-light: #f5faff;
+  --radius: 14px;
+  font-family: "Poppins", sans-serif;
+}
+
+.auth-container {
+  min-height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0057ff22, #00b36b22);
+  padding: 20px;
+}
+
+.auth-card {
+  background: white;
+  width: 380px;
+  padding: 30px;
+  border-radius: var(--radius);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  animation: fade .25s ease-in-out;
+}
+
+.auth-card h2 {
+  text-align: center;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.auth-card p {
+  text-align: center;
+  color: #555;
+  margin-bottom: 16px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+label {
+  font-weight: 600;
+  color: #333;
+}
+
+input {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1.4px solid #ccc;
+  transition: 0.2s;
+}
+
+input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 6px #0057ff55;
+  outline: none;
+}
+
+button {
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+.error-text {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+}
+
+.success-text {
+  color: green;
+  font-size: 14px;
+  text-align: center;
+}
+
+.auth-switch {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.auth-switch span {
+  color: var(--primary);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+@keyframes fade {
+  from { opacity: 0; transform: scale(.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
