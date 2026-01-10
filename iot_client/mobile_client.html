@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile IoT Client (Simulator)</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #222;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .status {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 8px;
+            background: #333;
+        }
+
+        .g-force {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #00d2ff;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background: #e63946;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .log {
+            text-align: left;
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-top: 20px;
+            height: 200px;
+            overflow-y: auto;
+            background: #000;
+            padding: 10px;
+            border: 1px solid #444;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        video {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 10px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        canvas {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>📱 IoT Pothole Client</h1>
+    <p>Use your phone as the Accelerometer + Camera + GPS device.</p>
+
+    <!-- Configure Backend URL -->
+    <input type="text" id="backendUrl" value="http://192.168.1.X:5000"
+        placeholder="Enter PC Private IP (e.g. 192.168.1.5:5000)">
+    <p style="font-size: 0.8rem; color: #aaa;">Ensure phone and PC are on same WiFi. Use PC's IP, not localhost.</p>
+
+    <div class="status">
+        <div>Z-Axis G-Force</div>
+        <div class="g-force" id="gVal">1.0</div>
+        <div id="gpsStatus">📡 GPS: Waiting...</div>
+    </div>
+
+    <button class="btn" id="startBtn" onclick="startSensors()">🚀 Start Driving Mode</button>
+    <button class="btn" style="background:#444;" onclick="simulateImpact()">🔨 Test Trigger (Simulate)</button>
+
+    <video id="video" autoplay playsinline></video>
+    <canvas id="canvas"></canvas>
+
+    <div class="log" id="consoleLog"></div>
+
+    <script>
+        let backendUrl = "";
+        let isRunning = false;
+        let lastImpact = 0;
+        const THRESHOLD = 1.6; // Sensitivity
+        const MIN_INTERVAL = 5000; // ms
+
+        // Console Log Helper
+        function log(msg) {
+            const div = document.getElementById("consoleLog");
+            div.innerHTML = `<div>> ${msg}</div>` + div.innerHTML;
+        }
+
+        async function startSensors() {
+            backendUrl = document.getElementById("backendUrl").value + "/api/reports/upload-damage";
+            if (backendUrl.includes("192.168.1.X")) {
+                alert("Please enter your PC's real IP address first!");
+                return;
+            }
+
+            // 1. Request Camera
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: "environment" }
+                });
+                const video = document.getElementById("video");
+                video.srcObject = stream;
+                // video.style.display = "block"; // Hide preview to save battery or show?
+                log("✅ Camera Connected");
+            } catch (e) {
+                log("❌ Camera Failed: " + e.message);
+                return;
+            }
+
+            // 2. Request GPS
+            if ("geolocation" in navigator) {
+                navigator.geolocation.watchPosition(
+                    (pos) => {
+                        document.getElementById("gpsStatus").innerHTML =
+                            `📡 GPS: ${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`;
+                        window.currentLat = pos.coords.latitude;
+                        window.currentLng = pos.coords.longitude;
+                    },
+                    (err) => log("⚠️ GPS Error: " + err.message),
+                    { enableHighAccuracy: true }
+                );
+            } else {
+                log("❌ GPS Not Supported");
+            }
+
+            // 3. Request Accelerometer
+            if (typeof DeviceMotionEvent.requestPermission === 'function') {
+                // iOS 13+ requires permission
+                DeviceMotionEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
+                            window.addEventListener('devicemotion', handleMotion);
+                        }
+                    })
+                    .catch(console.error);
+            } else {
+                // Non-iOS
+                window.addEventListener('devicemotion', handleMotion);
+            }
+
+            isRunning = true;
+            document.getElementById("startBtn").style.display = "none";
+            log("🚀 Sensors Active! Shake phone to simulate pothole.");
+        }
+
+        function handleMotion(event) {
+            if (!isRunning) return;
+
+            // Z-axis usually includes gravity (1g ~ 9.8m/s2 or just 1.0 depending on browser)
+            // Most browsers return m/s2. So 1g = 9.8
+            // Let's normalize around Gs.
+
+            let z = event.accelerationIncludingGravity.z || 0;
+            let g = Math.abs(z / 9.8);
+
+            document.getElementById("gVal").innerText = g.toFixed(2);
+
+            // Simple Impact Logic
+            // If huge spike (pothole bump)
+            if (g > THRESHOLD || g < 0.4) { // Spike up or Drop down
+                let now = Date.now();
+                if (now - lastImpact > MIN_INTERVAL) {
+                    lastImpact = now;
+                    triggerPotholeEvent(g);
+                }
+            }
+        }
+
+        function simulateImpact() {
+            log("🔨 Simulating Manual Trigger...");
+            triggerPotholeEvent(2.5);
+        }
+
+        async function triggerPotholeEvent(force) {
+            log(`❗ IMPACT DETECTED (G=${force.toFixed(1)})`);
+
+            // 1. Capture Image
+            const video = document.getElementById("video");
+            const canvas = document.getElementById("canvas");
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext("2d").drawImage(video, 0, 0);
+
+            canvas.toBlob(async (blob) => {
+                if (!blob) return log("❌ Image Capture Failed");
+
+                // 2. Prepare Data
+                const formData = new FormData();
+                formData.append("image", blob, "mobile_capture.jpg");
+                formData.append("mobile", "9999999999");
+                formData.append("description", `Mobile IoT: Auto-detected Impact (G=${force.toFixed(1)})`);
+                formData.append("lat", window.currentLat || 0);
+                formData.append("lng", window.currentLng || 0);
+                formData.append("sensorType", "Mobile-Accelerometer");
+
+                // 3. Upload
+                log("📤 Uploading Evidence...");
+                try {
+                    const res = await fetch(backendUrl, {
+                        method: "POST",
+                        body: formData
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        log("✅ Upload & AI Success! Severity: " + data.report.severity);
+                    } else {
+                        log("⚠️ Server Error: " + data.error);
+                    }
+                } catch (e) {
+                    log("❌ Network Error. Check IP.");
+                }
+
+            }, "image/jpeg", 0.8);
+        }
+
+    </script>
+</body>
+
+</html>

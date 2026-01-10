@@ -14,10 +14,26 @@ const __dirname = path.dirname(__filename);
 const cleanPath = (fullPath) => {
   if (!fullPath) return null;
 
-  const idx = fullPath.indexOf("uploads");
-  if (idx === -1) return null;
+  // 1. Handle Uploads
+  if (fullPath.includes("uploads")) {
+    const idx = fullPath.indexOf("uploads");
+    return "/" + fullPath.substring(idx).replace(/\\/g, "/");
+  }
 
-  return "/" + fullPath.substring(idx).replace(/\\/g, "/");
+  // 2. Handle AI Runs (mapped to /ai-output)
+  if (fullPath.includes("runs")) {
+    const idx = fullPath.indexOf("runs");
+    // runs is 4 chars. Get everything AFTER "runs"
+    // e.g. ...\runs\detect\predict\img.jpg -> \detect\predict\img.jpg
+    let relative = fullPath.substring(idx + 4).replace(/\\/g, "/");
+
+    // Ensure leading slash
+    if (!relative.startsWith("/")) relative = "/" + relative;
+
+    return "/ai-output" + relative;
+  }
+
+  return null;
 };
 
 // ----------------------------------------------------
@@ -57,37 +73,40 @@ export const uploadDamage = async (req, res) => {
     const videoFile = req.files?.video?.[0] || null;
 
     // --- Windows absolute path (full)
-    const fullImagePath = imageFile ? imageFile.path : null;
+    let aiInputAbsPath = null;
+    if (imageFile) aiInputAbsPath = imageFile.path;
+    else if (videoFile) aiInputAbsPath = videoFile.path;
 
     // --- Convert to relative for Python (IMPORTANT FIX)
-    const relativeImagePath = fullImagePath
-      ? path.relative(process.cwd(), fullImagePath)
+    const relativeInputPath = aiInputAbsPath
+      ? path.relative(process.cwd(), aiInputAbsPath)
       : null;
 
-    console.log("⭐ Python Input Path =", relativeImagePath);
+    console.log("⭐ Python Input Path =", relativeInputPath);
 
     let aiDetections = [];
-    let aiImagePath = fullImagePath;
+    let aiOutputMedia = aiInputAbsPath; // default to original if fail
     let aiResult = "AI Not Executed";
 
     // ---------------- AI PROCESS WITH TIMEOUT ----------------
-    if (fullImagePath) {
+    if (relativeInputPath) {
       try {
         const result = await Promise.race([
-          runAIDetection(relativeImagePath), // IMPORTANT
+          runAIDetection(relativeInputPath), // IMPORTANT
           new Promise((_, reject) =>
-            setTimeout(() => reject(new Error("AI Timeout")), 180000)
+            // Increase timeout for video (5 minutes)
+            setTimeout(() => reject(new Error("AI Timeout")), 300000)
           ),
         ]);
 
         aiDetections = result?.detections || [];
-        aiImagePath = result?.outputImage || fullImagePath;
+        aiOutputMedia = result?.outputImage || aiInputAbsPath;
         aiResult = "AI Analysis Completed";
 
       } catch (err) {
         console.log("❌ AI Error:", err.message);
         aiDetections = [];
-        aiImagePath = fullImagePath;
+        aiOutputMedia = aiInputAbsPath;
         aiResult = `AI Failed: ${err.message}`;
       }
     }
@@ -96,9 +115,10 @@ export const uploadDamage = async (req, res) => {
     const severity = calculateSeverity(aiDetections);
 
     // ---------------- CLEAN PATHS FOR FRONTEND ----------------
-    const cleanUploaded = cleanPath(fullImagePath);
+    // ---------------- CLEAN PATHS FOR FRONTEND ----------------
+    const cleanUploaded = cleanPath(imageFile ? imageFile.path : null);
     const cleanVideo = cleanPath(videoFile ? videoFile.path : null);
-    const cleanAiImage = cleanPath(aiImagePath);
+    const cleanAiImage = cleanPath(aiOutputMedia);
 
     // ---------------- SAVE REPORT TO DB ----------------
     const report = await UserReport.create({
@@ -194,6 +214,19 @@ export const updateReportStatus = async (req, res) => {
     );
 
     res.json({ success: true, report });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+};
+
+// ----------------------------------------------------
+// DELETE REPORT
+// ----------------------------------------------------
+export const deleteReport = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await UserReport.findByIdAndDelete(id);
+    res.json({ success: true, message: "Report deleted successfully" });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }

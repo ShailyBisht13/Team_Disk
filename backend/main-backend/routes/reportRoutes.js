@@ -1,11 +1,12 @@
 // main-backend/routes/reportRoutes.js
 import express from "express";
 import {
-  uploadDamage,
-  getUserReports,
-  submitReport,
-  getAllReports,
-  updateReportStatus   // ✅ IMPORT STATUS UPDATE CONTROLLER
+   uploadDamage,
+   getUserReports,
+   submitReport,
+   getAllReports,
+   updateReportStatus,   // ✅ IMPORT STATUS UPDATE CONTROLLER
+   deleteReport
 } from "../controllers/reportController.js";
 
 import multer from "multer";
@@ -24,9 +25,9 @@ if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 
 // 🔧 File storage
 const storage = multer.diskStorage({
-  destination: uploadDir,
-  filename: (req, file, cb) =>
-    cb(null, "input_" + Date.now() + path.extname(file.originalname)),
+   destination: uploadDir,
+   filename: (req, file, cb) =>
+      cb(null, "input_" + Date.now() + path.extname(file.originalname)),
 });
 
 const upload = multer({ storage });
@@ -35,12 +36,12 @@ const upload = multer({ storage });
    🟦 USER — UPLOAD DAMAGE
 ---------------------------------------------------------- */
 router.post(
-  "/upload-damage",
-  upload.fields([
-    { name: "image", maxCount: 1 },
-    { name: "video", maxCount: 1 },
-  ]),
-  uploadDamage
+   "/upload-damage",
+   upload.fields([
+      { name: "image", maxCount: 1 },
+      { name: "video", maxCount: 1 },
+   ]),
+   uploadDamage
 );
 
 /* ----------------------------------------------------------
@@ -63,5 +64,11 @@ router.get("/all", getAllReports);
    PUT /api/reports/status/<reportId>
 ---------------------------------------------------------- */
 router.put("/status/:id", updateReportStatus);   // ✅ WORKS WITH FRONTEND
+
+/* ----------------------------------------------------------
+   ⬛ ADMIN — DELETE REPORT
+   DELETE /api/reports/delete/<reportId>
+---------------------------------------------------------- */
+router.delete("/delete/:id", deleteReport);
 
 export default router;

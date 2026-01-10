@@ -107,11 +107,20 @@ export default function AdminReports() {
               {r.aiImage && (
                 <div>
                   <p><b>AI Processed Output</b></p>
-                  <img
-                    src={`${backend}${r.aiImage}`}
-                    alt="AI Output"
-                    className="report-img"
-                  />
+                  {r.aiImage.toLowerCase().match(/\.(mp4|webm|ogg|mov|avi)$/) ? (
+                    <video
+                      src={`${backend}${r.aiImage}`}
+                      controls
+                      width="280"
+                      className="report-img" // using same class for styling consisteny if needed, or remove
+                    />
+                  ) : (
+                    <img
+                      src={`${backend}${r.aiImage}`}
+                      alt="AI Output"
+                      className="report-img"
+                    />
+                  )}
                 </div>
               )}
 
@@ -178,6 +187,28 @@ export default function AdminReports() {
                 onClick={() => updateStatus(r._id, "Resolved")}
               >
                 Mark Resolved
+              </button>
+
+              <button
+                style={{ backgroundColor: "#ff4d4d", color: "white", marginLeft: "10px" }}
+                onClick={async () => {
+                  if (window.confirm("Are you sure you want to delete this report?")) {
+                    try {
+                      const res = await fetch(`${backend}/api/reports/delete/${r._id}`, {
+                        method: "DELETE"
+                      });
+                      const data = await res.json();
+                      if (data.success) {
+                        alert("Report deleted!");
+                        fetchReports();
+                      }
+                    } catch (err) {
+                      alert("Failed to delete report");
+                    }
+                  }
+                }}
+              >
+                Delete
               </button>
             </div>
 

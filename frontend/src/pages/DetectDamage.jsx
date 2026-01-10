@@ -91,7 +91,11 @@ export default function DetectDamage() {
         .addTo(mapRef.current)
         .bindPopup(
           `<b>Damage Reported</b><br>${r.address || "No address"}<br><br>
-           <b>Submitted:</b> ${new Date(r.createdAt).toLocaleString()}`
+           <b>Submitted:</b> ${new Date(r.createdAt).toLocaleString()}
+           ${r.aiImage
+            ? `<br><br><b>AI Detection:</b><br><img src="${backend}${r.aiImage}" style="width:100%; border-radius:8px; margin-top:5px;" />`
+            : ""
+          }`
         );
     });
   }, [reports]);
